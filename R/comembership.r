@@ -31,6 +31,9 @@
 #' # Notice that the number of comemberships is 'n choose 2'.
 #' length(comembership_out) == choose(n, 2)
 comembership <- function(labels) {
+    if (!class(labels) %in% c('numeric', 'integer', 'factor')) {
+        stop("Labels must be numeric or factors.")
+    }
 	.Call("rcpp_comembership", labels, PACKAGE = "clusteval")
 }
 
@@ -93,6 +96,10 @@ comembership_table <- function(labels1, labels2) {
   if (length(labels1) != length(labels2)) {
     stop("The two vectors of cluster labels must be of equal length.");
   }
+  if (!class(labels1) %in% c('numeric', 'integer', 'factor') || 
+      !class(labels2) %in% c('numeric', 'integer', 'factor')) {
+    stop("Labels must be numeric or factors.")
+  }
 
-	.Call("rcpp_comembership_table", labels1, labels2, PACKAGE = "clusteval")
+  .Call("rcpp_comembership_table", labels1, labels2, PACKAGE = "clusteval")
 }

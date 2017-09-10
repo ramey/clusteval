@@ -49,6 +49,11 @@
 cluster_similarity <- function(labels1, labels2, similarity = "adjusted_rand") {
 	similarity <- match.arg(similarity, similarity_methods()$method)
   similarity_fun <- match.fun(similarity)
+
+  if (!class(labels1) %in% c('numeric', 'integer', 'factor') || 
+      !class(labels2) %in% c('numeric', 'integer', 'factor')) {
+    stop("Labels must be numeric or factors.")
+  }
   similarity_fun(labels1, labels2)
 }
 
